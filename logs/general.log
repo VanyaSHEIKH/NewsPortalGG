@@ -1,0 +1,20 @@
+14.11/2024 00-04-12 INFO autoreload Watching for file changes with StatReloader
+14.11/2024 00-04-13 WARNING log Forbidden (Permission denied): /posts/news/create/
+Traceback (most recent call last):
+  File "C:\Users\itsva\PycharmProjects\NewsPortalGG\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\itsva\PycharmProjects\NewsPortalGG\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\itsva\PycharmProjects\NewsPortalGG\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\itsva\PycharmProjects\NewsPortalGG\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 108, in dispatch
+    return self.handle_no_permission()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\itsva\PycharmProjects\NewsPortalGG\venv\Lib\site-packages\django\contrib\auth\mixins.py", line 48, in handle_no_permission
+    raise PermissionDenied(self.get_permission_denied_message())
+django.core.exceptions.PermissionDenied
+14.11/2024 00-04-13 WARNING basehttp "GET /posts/news/create/ HTTP/1.1" 403 135
+14.11/2024 00-04-26 INFO autoreload C:\Users\itsva\PycharmProjects\NewsPortalGG\NewsPaper\NewsPaper\settings.py changed, reloading.
