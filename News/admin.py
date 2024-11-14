@@ -13,7 +13,7 @@ rating_quantity.short_description = 'Обнулить рейтинг'  # опи�
 
 class PostAdmin(admin.ModelAdmin):
     # list_display — это список или кортеж со всеми полями, которые вы хотите видеть в таблице с товарами
-    list_display = ('id', 'date_in', 'title', 'text', 'rating')
+    list_display = ('id', 'date_in', 'title', 'text', 'rating','author')
     list_filter = ('rating',)
     search_fields = ('title',)
     actions = [rating_quantity]
