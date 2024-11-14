@@ -1,14 +1,10 @@
 from django.core.mail import send_mail
-from django.contrib import messages
-from django.shortcuts import render
-from datetime import datetime, date, timedelta
-
+from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.cache import cache
@@ -30,30 +26,6 @@ class PostsList(ListView):
     context_object_name = 'posts'
     paginate_by = 5
 
-    # def get_context_data(self, **kwargs):
-    #     common_timezones = {
-    #         "London": "Europe/London",
-    #         "Paris": "Europe/Paris",
-    #         "New York": "America/New_york",
-    #         "Moscow": "Europe/Moscow",
-    #         "Singapore": "Asia/Singapore",
-    #     }
-    #     context = super().get_context_data(**kwargs)
-    #     context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
-    #     # timezone.now().hour всегда возвращает час по UTC, а нам нужен час в соответствии с выбранным часовым поясом.
-    #     context['current_time'] = timezone.localtime(timezone.now())  # передаем в контекс текущее время
-    #     context[
-    #         'timezones'] = common_timezones.items()  # добавляем в контекст все доступные временные пояса, которые мы добавили
-    #     # преобразовывая словарь в список кортежей [(ключ, значение), (...) ,]
-    #     # context['timezones'] = pytz.common_timezones # добавляем в контекст все доступные временные пояса в джанго
-    #     print(context['current_time'])
-    #     return context
-    #
-    # def post(self, request):
-    #     request.session['django_timezone'] = request.POST['timezone']
-    #     return redirect('Posts_list')  # это означает что мы после выполнения запроса, а смена часового пояса это запрос
-    # # который отправляется на сервер и обновляет страницу, перенаправимся на страницу из urls по name = 'Posts_list'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['list_in_page'] = self.paginate_by
@@ -70,11 +42,9 @@ class PostDetail(DetailView):
     template_name = 'post.html'
     context_object_name = 'post'
 
-    # добавляем кеширование страницы с новостью
     def get_object(self, *args, **kwargs):
         obj = cache.get(f'post-{self.kwargs["pk"]}',
-                        None)  # кэш очень похож на словарь, и метод get действует так же. Он забирает значение по ключу, если его нет, то забирает None.
-        # если объекта нет в кэше, то получаем его и записываем в кэш
+                        None)
         if not obj:
             obj = super().get_object(queryset=self.queryset)
             cache.set(f'post-{self.kwargs["pk"]}', obj)
@@ -99,7 +69,7 @@ class PostsSearch(ListView):
 
 
 class NewsCreate(PermissionRequiredMixin, CreateView):
-    permission_required = ('news.add_post',)
+    permission_required = ('News.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'news_create.html'
@@ -113,12 +83,11 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
         if post_limit >= 10:
             return render(self.request, template_name='post_limit.html', context={'author': post.author})
         post.save()
-        # notification_new_post.apply_async([post.pk]) #добавил отправку сообщения о создании, передал первичнй ключ
         return super().form_valid(form)
 
 
 class ArticlesCreate(PermissionRequiredMixin, CreateView):
-    permission_required = ('news.add_post',)
+    permission_required = ('News.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'articles_create.html'
@@ -132,7 +101,6 @@ class ArticlesCreate(PermissionRequiredMixin, CreateView):
         if post_limit >= 10:
             return render(self.request, template_name='post_limit.html', context={'author': post.author})
         post.save()
-        # notification_new_post.apply_async([post.pk]) #добавил отправку сообщения о создании, передал первичнй ключ
         return super().form_valid(form)
 
 
@@ -160,26 +128,6 @@ class CategoryDetail(DetailView):
     model = Category
     template_name = 'category.html'
     context_object_name = 'category'
-
-
-# @login_required
-# def subscribe(request, pk):
-#     user = request.user
-#     category = Category.objects.get(id=pk)
-#     category.subscriber.add(user)
-#
-#     massage = 'Успешная подписка на категорию'
-#     return render(request, 'subscribe.html', {'category':category, 'massage':massage})
-#
-#
-# @login_required
-# def unsubscribe(request, pk):
-#     user = request.user
-#     category = Category.objects.get(id=pk)
-#     category.subscriber.remove(user)
-#
-#     massage= 'Вы успешно отписались категории'
-#     return render(request,'unsubscribe.html', {'category':category, 'massage':massage})
 
 
 @login_required
@@ -234,7 +182,9 @@ class Index(View):
 
         return HttpResponse(render(request, 'index.html', context))
 
-    #  по пост-запросу будем добавлять в сессию часовой пояс, который и будет обрабатываться написанным нами ранее middleware
     def post(self, request):
         request.session['django_timezone'] = request.POST['timezone']
         return redirect('/posts/categories')
+
+
+

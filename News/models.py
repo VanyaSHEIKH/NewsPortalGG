@@ -51,7 +51,6 @@ class Post(models.Model):
     article = "A"
 
     POST_TYPES = [(news, "Новость"), (article, "Статья")]
-
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     post_type = models.CharField(max_length=1, choices=POST_TYPES, default=article)
     date_in = models.DateTimeField(auto_now_add=True)
@@ -80,6 +79,7 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
         cache.delete(f'post-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
+
 
 
 class PostCategory(models.Model):
