@@ -8,11 +8,10 @@ def rating_quantity(modeladmin, request,queryset):
     queryset.update(rating=0)
 
 
-rating_quantity.short_description = 'Обнулить рейтинг'  # описание для более понятного представления в админ панеле задаётся, как будто это объект
+rating_quantity.short_description = 'Обнулить рейтинг'
 
 
 class PostAdmin(admin.ModelAdmin):
-    # list_display — это список или кортеж со всеми полями, которые вы хотите видеть в таблице с товарами
     list_display = ('id', 'date_in', 'title', 'text', 'rating','author')
     list_filter = ('rating',)
     search_fields = ('title',)

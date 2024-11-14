@@ -13,10 +13,8 @@ from django.conf import settings
 from .filters import *
 from .models import *
 from .forms import *
-
 from django.utils.translation import gettext as _
-
-import pytz  # импортируем стандартный модуль для работы с поясами часовыми
+import pytz
 
 
 class PostsList(ListView):
@@ -171,13 +169,12 @@ class Index(View):
     def get(self, request):
         curent_time = timezone.now()
 
-        # .  Translators: This message appears on the home page only
         models = Category.objects.all()
 
         context = {
             'models': models,
             'current_time': timezone.now(),
-            'timezones': pytz.common_timezones  # добавляем в контекст все доступные часовые пояса
+            'timezones': pytz.common_timezones
         }
 
         return HttpResponse(render(request, 'index.html', context))
@@ -185,6 +182,3 @@ class Index(View):
     def post(self, request):
         request.session['django_timezone'] = request.POST['timezone']
         return redirect('/posts/categories')
-
-
-

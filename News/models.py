@@ -1,11 +1,9 @@
 import datetime
 from django.utils import timezone
-
 from django.core.cache import cache
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
 
 
 class Author(models.Model):
@@ -81,10 +79,9 @@ class Post(models.Model):
         cache.delete(f'post-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
 
 
-
 class PostCategory(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name= 'categories')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,related_name= 'posts')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='categories')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
 
 
 class Comment(models.Model):

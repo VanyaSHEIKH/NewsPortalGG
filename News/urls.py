@@ -3,7 +3,6 @@ from .views import *
 
 urlpatterns = [
     path('', PostsList.as_view(), name= 'Posts_list'),
-    # path('<int:pk>/', cache_page(300)(PostDetail.as_view()), name= 'Post_detail'),
     path('<int:pk>/', PostDetail.as_view(), name='Post_detail'),
     path('search/', PostsSearch.as_view(), name= 'Posts_search'),
     path('news/create/', NewsCreate.as_view(), name='News_create'),
