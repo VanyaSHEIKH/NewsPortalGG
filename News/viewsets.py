@@ -4,6 +4,7 @@ from rest_framework import viewsets, permissions
 from .serializers import *
 from .models import *
 
+
 class PostViewset(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -25,12 +26,12 @@ class CategoryViewset(viewsets.ModelViewSet):
 
 
 class NewsViewset(viewsets.ModelViewSet):
-    queryset = Post.objects.filter(post_type = 'N')
+    queryset = Post.objects.filter(post_type='N')
     serializer_class = NewsSerializer
 
 
 class ArticleViewset(viewsets.ModelViewSet):
-    queryset = Post.objects.filter(post_type = 'A')
+    queryset = Post.objects.filter(post_type='A')
     serializer_class = ArticleSerializer
 
 

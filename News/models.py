@@ -75,8 +75,8 @@ class Post(models.Model):
         return reverse('Post_detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
-        cache.delete(f'post-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
+        super().save(*args, **kwargs)
+        cache.delete(f'post-{self.pk}')
 
 
 class PostCategory(models.Model):

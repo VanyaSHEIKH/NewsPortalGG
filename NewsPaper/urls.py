@@ -42,7 +42,7 @@ urlpatterns = [
         template_name='swagger-ui.html',
         extra_context={'schema_url': 'openapi-schema'}
     ), name='swagger-ui'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),#  этим подклучается авторизация для DRF
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/', include(router.urls)),
 
 
