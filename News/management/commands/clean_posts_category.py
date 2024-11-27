@@ -4,7 +4,7 @@ from News.models import PostCategory, Category, Post
 
 
 class Command(BaseCommand):
-    help = 'Удаляет все посты вбранной категории'
+    help = 'Удаляет все посты выбранной категории'
     # requires_migrations_checks = True #напоминание о выполнении миграций, если таковые есть
     post_category = ", ".join([cat.category for cat in Category.objects.all()])  # Собираем кверисет всех категорий
 

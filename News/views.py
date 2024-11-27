@@ -17,6 +17,9 @@ from django.utils.translation import gettext as _
 import pytz
 
 
+
+
+
 class PostsList(ListView):
     model = Post
     ordering = 'date_in'
